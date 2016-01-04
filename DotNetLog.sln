@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Threshold.Log", "Threshold.Log\Threshold.Log.csproj", "{EB8E7EDF-4824-4613-9CDB-A770A2652175}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotLog", "Threshold.Log\DotLog.csproj", "{EB8E7EDF-4824-4613-9CDB-A770A2652175}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{2808B6CF-A742-4F09-9509-37CEEE62763E}"
 EndProject
