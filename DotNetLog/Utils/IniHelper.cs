@@ -19,7 +19,7 @@ namespace Threshold.Log.Utils
         /// </summary>
         /// <param name="fullPath">绝对路径</param>
         /// <param name="defaultIniContent">默认ini内容（在ini文件不存在时创建）</param>
-        public IniHelper(string fullPath, string defaultIniContent = "尚未配置的ini文件")
+        public IniHelper(string fullPath, string defaultIniContent = "This File haven't config yet.")
         {
             FileUtil.DiretoryIsValid(fullPath, true);
             // 判断文件是否存在
@@ -35,7 +35,7 @@ namespace Threshold.Log.Utils
                 }
                 catch
                 {
-                    throw (new ApplicationException("Ini文件不存在"));
+                    throw (new ApplicationException("Ini Config File Can't be created。Check your account permissions."));
                 }
             }
             //必须是完全路径，不能是相对路径
@@ -47,7 +47,7 @@ namespace Threshold.Log.Utils
         /// </summary>
         /// <param name="releativePath">文件名称。如“设置.ini”</param>
         public IniHelper(string releativePath)
-            : this(string.Format(@"{0}\{1}", AppDomain.CurrentDomain.BaseDirectory, releativePath), "尚未配置的ini文件")
+            : this(string.Format(@"{0}\{1}", AppDomain.CurrentDomain.BaseDirectory, releativePath), "This File haven't config yet.")
         { }
 
         /// <summary>

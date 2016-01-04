@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetLog", "DotNetLog\DotNetLog.csproj", "{7E4D7953-546C-4FB6-9467-F3BF1EC8C684}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogSample", "LogSample\LogSample.csproj", "{F490D9BB-BCE6-4803-99BF-8F7C880B805B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7E4D7953-546C-4FB6-9467-F3BF1EC8C684}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E4D7953-546C-4FB6-9467-F3BF1EC8C684}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E4D7953-546C-4FB6-9467-F3BF1EC8C684}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F490D9BB-BCE6-4803-99BF-8F7C880B805B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F490D9BB-BCE6-4803-99BF-8F7C880B805B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F490D9BB-BCE6-4803-99BF-8F7C880B805B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F490D9BB-BCE6-4803-99BF-8F7C880B805B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -34,6 +34,7 @@ namespace Threshold.Log
         private const string INI_KEY_IS_ONLY_PRINT_WARN_ERROR = "IsOnlyPrintWarnError";
 
         private const int READ_CONFIG_FREQUENCY = 5;
+        private static readonly string _defaultLogFolder = AppDomain.CurrentDomain.BaseDirectory + @"\Logs";
 
         private static readonly byte[] _lock = new byte[0];
 
@@ -57,6 +58,7 @@ namespace Threshold.Log
             }
             set
             {
+                PerformInitConfig();
                 if (_logFolder == null || string.Compare(_logFolder, value, true) != 0)
                 {
                     _logFolder = value;
@@ -72,6 +74,7 @@ namespace Threshold.Log
             }
             set
             {
+                PerformInitConfig();
                 if (_isPrint != value)
                 {
                     _isPrint = value;
@@ -88,6 +91,7 @@ namespace Threshold.Log
             }
             set
             {
+                PerformInitConfig();
                 if (_isOnlyPrintWarnError != value)
                 {
                     _isOnlyPrintWarnError = value;
@@ -164,6 +168,14 @@ namespace Threshold.Log
             E(GetTag(), message);
         }
 
+        //private static void CheckIniHelper()
+        //{
+        //    var hasInit = false;
+        //    CheckIniHelper(ref hasInit);
+        //    System.Diagnostics.Debug.WriteLine("Before Call Log.VDIWE method,You Changed Config,Is Cfg File  On Disk: "+!hasInit);
+        //}
+
+       
 
         private static void CheckLogHelper()
         {
@@ -211,17 +223,8 @@ namespace Threshold.Log
 
         private static void WriteLog(LogLevel level, string tag, object message)
         {
+            PerformInitConfig();
 
-            if (IsNeedInitLogCfg())
-            {
-                lock (_lock)
-                {
-                    if (IsNeedInitLogCfg())
-                    {
-                        InitLogFromCfg();
-                    }
-                }
-            }
             if (!IsPrint || (IsOnlyPrintWarnError && level < LogLevel.Warn))
             {
                 return;
@@ -240,42 +243,61 @@ namespace Threshold.Log
         }
 
 
+       private static void PerformInitConfig()
+        {
+            if (IsNeedInitLogCfg())
+            {
+                lock (_lock)
+                {
+                    if (IsNeedInitLogCfg())
+                    {
+                        InitLogFromCfg();
+                    }
+                }
+            }
+        }
 
 
         private static bool IsNeedInitLogCfg()
         {
-            return mLastReadConfigTime == default(DateTime) ||
+            return mIniHelper==null|| mLastReadConfigTime == default(DateTime) ||
                 (DateTime.Now - mLastReadConfigTime).TotalMinutes > READ_CONFIG_FREQUENCY;
         }
 
 
         public static void InitLogFromCfg()
         {
-            var defaultLogFolder = AppDomain.CurrentDomain.BaseDirectory + @"\Logs";
             var hasInit = false;
+            CheckIniHelper(ref hasInit);
+            if (!hasInit)
+            {
+                _logFolder = mIniHelper.ReadString(INI_SECTION_LOG, INI_KEY_LOG_FOLDER, _defaultLogFolder);
+                _isPrint = mIniHelper.ReadBool(INI_SECTION_LOG, INI_KEY_IS_PRINT, false);
+                _isOnlyPrintWarnError = mIniHelper.ReadBool(INI_SECTION_LOG, INI_KEY_IS_ONLY_PRINT_WARN_ERROR, false);
+            }
+            mLastReadConfigTime = DateTime.Now;
+        }
+
+        private static void CheckIniHelper(ref bool hasInit)
+        {
             if (mIniHelper == null)
             {
+                var cfgIsPrint = _isPrint.ToString();
+                var cfgIsOnlyPrintWarnError = _isOnlyPrintWarnError.ToString();
                 var defaultCfg = string.Format(@"[Log]
 LogFolder={0}
-IsPrint=False
-IsOnlyPrintWarnError=False", defaultLogFolder);
+IsPrint={1}
+IsOnlyPrintWarnError={2}", _defaultLogFolder, cfgIsPrint, cfgIsOnlyPrintWarnError);
                 var cfgFileName = AppDomain.CurrentDomain.BaseDirectory + @"\Log.cfg";
                 if (!System.IO.File.Exists(cfgFileName))
                 {
-                    _logFolder = defaultLogFolder;
+                    _logFolder = _defaultLogFolder;
                     _isPrint = false;
                     _isOnlyPrintWarnError = false;
                     hasInit = true;
                 }
                 mIniHelper = new IniHelper(cfgFileName, defaultCfg);
             }
-            if (!hasInit)
-            {
-                _logFolder = mIniHelper.ReadString(INI_SECTION_LOG, INI_KEY_LOG_FOLDER, defaultLogFolder);
-                _isPrint = mIniHelper.ReadBool(INI_SECTION_LOG, INI_KEY_IS_PRINT, false);
-                _isOnlyPrintWarnError = mIniHelper.ReadBool(INI_SECTION_LOG, INI_KEY_IS_ONLY_PRINT_WARN_ERROR, false);
-            }
-            mLastReadConfigTime = DateTime.Now;
         }
 
         /// <summary>

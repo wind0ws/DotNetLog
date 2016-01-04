@@ -8,6 +8,7 @@ namespace Threshold.Log.Utils
     class LogFileHelper
     {
         private static readonly byte[] _lock = new byte[0];
+        private static readonly byte[] _createFileLock = new byte[0];
         private string _fileName;
         private static Dictionary<long, long> lockDic = new Dictionary<long, long>();
         /// <summary>  
@@ -43,10 +44,17 @@ namespace Threshold.Log.Utils
         {
             if (FileUtil.DiretoryIsValid(fileName, true) && !System.IO.File.Exists(fileName))
             {
-                using (System.IO.FileStream fs = System.IO.File.Create(fileName))
+                lock(_createFileLock)
                 {
-                    fs.Close();
+                    if (!System.IO.File.Exists(fileName))
+                    {
+                        using (System.IO.FileStream fs = System.IO.File.Create(fileName))
+                        {
+                            fs.Close();
+                        }
+                    }
                 }
+                
             }
         }
         /// <summary>  
