@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using Threshold.Log.Utils;
+using Threshold.LogHelper.Utils;
 
-namespace Threshold.Log
+namespace Threshold.LogHelper
 {
     public enum LogLevel
     {

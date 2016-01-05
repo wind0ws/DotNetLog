@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Threshold.Log.Utils
+namespace Threshold.LogHelper.Utils
 {
     class FileUtil
     {

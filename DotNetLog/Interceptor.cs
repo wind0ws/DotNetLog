@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Threshold.Log
+namespace Threshold.LogHelper
 {
     /// <summary>
     /// 日志插入器
