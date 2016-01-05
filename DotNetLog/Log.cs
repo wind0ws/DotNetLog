@@ -239,6 +239,7 @@ namespace Threshold.Log
             }
             CheckLogHelper();
             string content = string.Format("{0} {1}/{2}: {3}", DateTime.Now.ToString("HH:mm:ss:fff"), level, tag, message);
+            System.Diagnostics.Debug.WriteLine(content);
             mLogHelper.WriteLine(content);
         }
 
